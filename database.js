@@ -1,7 +1,7 @@
 /* jshint esversion: 8 */
-const { MongoMemoryServer } = require("mongodb-memory-server");
-const { MongoClient } = require("mongodb");
-const data = require("./data");
+const { MongoMemoryServer } = require('mongodb-memory-server');
+const { MongoClient } = require('mongodb');
+const data = require('./data');
 
 let database = null;
 
@@ -17,7 +17,7 @@ async function startDatabase() {
   //Seed Database
   if (!database) {
     database = connection.db();
-    await database.collection("webhooks").insertMany(data.Webhooks);
+    await database.collection('webhooks').insertMany(data.Webhooks);
   }
 
   return database;

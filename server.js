@@ -1,10 +1,10 @@
 /*jshint esversion: 8 */
 
 // Dependencies
-const express = require("express");
-const routes = require("./routes");
+const express = require('express');
+const routes = require('./routes');
 const bodyParser = require('body-parser');
-const { startDatabase } = require("./database");
+const { startDatabase } = require('./database');
 const crypto = require('crypto');
 
 // App

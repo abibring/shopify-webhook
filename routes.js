@@ -41,10 +41,10 @@ router.post('/order-created-webhook', async (req, res) => {
     // const orderId = '12345';
     const url = await generateQRCode(`{id: ${orderId}, }`);
     const html =  `
-      <b style="font-size:1.5rem;">Parking Confirmation Details:</b>
-      <p style="color:orange;font-size:1.2rem">Hi ${first_name}, thank you for using Omni Parking.  To enter the parking lot, please use the QR code below.</p>
+      <b style='font-size:1.5rem;'>Parking Confirmation Details:</b>
+      <p style='color:orange;font-size:1.2rem'>Hi ${first_name}, thank you for using Omni Parking.  To enter the parking lot, please use the QR code below.</p>
       <br />
-      <img style="width: 90%;, height: 90%;object=fit:contain;" src="${url}"/>
+      <img style='width: 90%;, height: 90%;object=fit:contain;' src='${url}'/>
     `;
 
     console.log('url generated for barcode:', url);
