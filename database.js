@@ -1,3 +1,4 @@
+/* jshint esversion: 8 */
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const { MongoClient } = require("mongodb");
 const data = require("./data");
