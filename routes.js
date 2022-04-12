@@ -5,6 +5,7 @@ const express = require('express');
 const transporter = require('./nodemailer.js');
 const QRCode = require('qrcode');
 
+// Express Router
 const router = express.Router();
 
 router.get('/', (req, res) =>  res.send('Welcome to the Webhooks API'));

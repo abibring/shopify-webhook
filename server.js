@@ -1,19 +1,18 @@
 /*jshint esversion: 8 */
 
 // Dependencies
+const dotenv = require('dotenv');
 const express = require('express');
 const routes = require('./routes');
 const bodyParser = require('body-parser');
 const { startDatabase } = require('./database');
 const crypto = require('crypto');
+dotenv.config();
 
 // App
 const app = express();
 
-const sigHeaderName = 'x-shopify-hmac-sha256';
-const sigHashAlg = 'sha256';
-const secret = '7f5eda23fdd55dd4c342eb26b08bcddf';
-
+const shopifySecretKey = process.env.SHOPIFY_SECRET_KEY;
 
 app.use(bodyParser.json({
         verify: (req, res, buf, encoding) => {
@@ -44,13 +43,13 @@ app.use(dbSetup);
 */
 const validatePayload = (req, res, next) => {
     try {
-        if (req.method == 'POST' && !req.rawBody) { return next('Request body empty'); }
+        if (req.method === 'POST' && !req.rawBody) { return next('Request body empty'); }
 
         const { rawBody: body } = req;
-        const hmacHeader = req.get(sigHeaderName);
+        const hmacHeader = req.get('x-shopify-hmac-sha256');
 
         //Create a hash based on the parsed body
-        const hash = crypto.createHmac(sigHashAlg, secret).update(body, 'utf8', 'hex').digest('base64');
+        const hash = crypto.createHmac('sha256', shopifySecretKey).update(body, 'utf8', 'hex').digest('base64');
 
         // Compare the created hash with the value of the X-Shopify-Hmac-Sha256 Header
         if (hash !== hmacHeader) {
@@ -62,11 +61,10 @@ const validatePayload = (req, res, next) => {
     }
 
     return next();
-
 }; // END validatePayload
 
 app.use(validatePayload);
 app.use('/', routes);
 
 // Server
-app.listen(port, () => console.log(`Server running on localhost:${port}`));
+app.listen(port, () => console.log(`Server running on localhost: ${port}`));
