@@ -2,7 +2,7 @@
 
 // Dependencies
 const express = require('express');
-const transporter = require('./nodemailer');
+const transporter = require('../helpers/nodemailer');
 const generateQRCode = require('./qrcode');
 
 // Express Router
@@ -11,14 +11,18 @@ const router = express.Router();
 router.get('/', (req, res) =>  res.send('Welcome to the Webhooks API'));
 
 // webhook endpoint for orders created
-router.post('/order-created-webhook', async (req, res) => {
+router.post('/api', async (req, res) => { // order-created-webhook
   try {
     // Grab needed data from reqeest object
     const { body: payload, headers } = req;
-
     const { email: to, order_number, customer, line_items, created_at, total_line_items_price } = payload;
     const { first_name, last_name } = customer;
     const startAndEndTimes = line_items && line_items[0] && line_items[0].properties || []; // start and end times should be here
+
+    // set headers
+    res.setHeader('Content-Type', 'text/html');
+    // describes lifetime of our resource telling CDN to serve from cache and update in background (at most once per second)
+    res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
 
     console.log('\n\npayload:', payload, '\n\n');
     console.log('\n\nlines_items[0].properties', startAndEndTimes, '\n\n');
