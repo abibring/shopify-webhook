@@ -20,9 +20,9 @@ router.post('/api', async (req, res) => { // order-created-webhook
     const startAndEndTimes = line_items && line_items[0] && line_items[0].properties || []; // start and end times should be here
 
     // set headers
-    res.setHeader('Content-Type', 'text/html');
+    // res.setHeader('Content-Type', 'text/html');
     // describes lifetime of our resource telling CDN to serve from cache and update in background (at most once per second)
-    res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+   //  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
 
     console.log('\n\npayload:', payload, '\n\n');
     console.log('\n\nlines_items[0].properties', startAndEndTimes, '\n\n');
